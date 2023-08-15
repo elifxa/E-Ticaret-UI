@@ -6,10 +6,11 @@ import { AppComponent } from './app.component';
 import { LayoutComponent } from './admin/layout/layout.component';
 import { AdminModule } from './admin/admin.module';
 import { UIModule } from './ui/ui.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, AdminModule, UIModule],
+  imports: [BrowserModule, AppRoutingModule, AdminModule, UIModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
