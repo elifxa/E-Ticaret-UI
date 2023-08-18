@@ -23,7 +23,3 @@ export class AppComponent {
     // });
   }
 }
-
-/*$(document).ready(() => {
-  alert('hello');
-});*/
