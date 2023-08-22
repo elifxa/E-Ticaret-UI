@@ -9,10 +9,8 @@ const routes: Routes = [
     path: 'admin',
     component: LayoutComponent,
     children: [
-      {
-        path: '',
-        component: DashboardComponent,
-      },
+      { path: '', redirectTo: 'dash', pathMatch: 'full' },
+      { path: 'dash', component: DashboardComponent },
       {
         path: 'customers',
         loadChildren: () =>

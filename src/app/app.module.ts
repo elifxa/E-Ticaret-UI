@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +10,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BaseComponent } from './base/base.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DeleteDirective } from './directives/admin/delete.directive';
+import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
+import { FileUploadModule } from './services/common/file-upload/file-upload.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,5 +30,6 @@ import { HttpClientModule } from '@angular/common/http';
     { provide: 'baseUrl', useValue: 'https://localhost:7213/api', multi: true },
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

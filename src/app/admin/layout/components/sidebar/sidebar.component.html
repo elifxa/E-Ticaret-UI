@@ -1,9 +1,18 @@
 <mat-list class="side-bar" role="list">
-  <mat-list-item role="listitem" routerLink="/admin">Dashboard</mat-list-item>
-  <mat-list-item role="listitem" routerLink="customers"
+  <mat-list-item
+    role="listitem"
+    routerLink="/admin/dash"
+    routerLinkActive="side"
+    >Dashboard</mat-list-item
+  >
+  <mat-list-item role="listitem" routerLink="customers" routerLinkActive="side"
     >Customers</mat-list-item
   >
-  <mat-list-item role="listitem" routerLink="products">Products</mat-list-item>
-  <mat-list-item role="listitem" routerLink="orders">Orders</mat-list-item>
+  <mat-list-item role="listitem" routerLink="products" routerLinkActive="side"
+    >Products</mat-list-item
+  >
+  <mat-list-item role="listitem" routerLink="orders" routerLinkActive="side"
+    >Orders</mat-list-item
+  >
   <mat-list-item role="listitem" routerLink="">Home</mat-list-item>
 </mat-list>
