@@ -1,8 +1,18 @@
 .example-container {
   width: 98%;
-  height: 350pt;
+  height: 290pt;
   margin: 10px;
   border: 1px solid #555;
 
   border-radius: 5px;
+}
+
+.side {
+  width: 250px;
+}
+
+.create {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

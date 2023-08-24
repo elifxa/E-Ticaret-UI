@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DeleteDirective } from './directives/admin/delete.directive';
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
 import { FileUploadModule } from './services/common/file-upload/file-upload.module';
+import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
 
 @NgModule({
   declarations: [AppComponent],
