@@ -14,6 +14,7 @@ import { DeleteDirective } from './directives/admin/delete.directive';
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
 import { FileUploadModule } from './services/common/file-upload/file-upload.module';
 import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,12 @@ import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upl
     ToastrModule.forRoot(),
     NgxSpinnerModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('accessToken'),
+        allowedDomains: ['localhost:7213'],
+      },
+    }),
   ],
   providers: [
     { provide: 'baseUrl', useValue: 'https://localhost:7213/api', multi: true },
