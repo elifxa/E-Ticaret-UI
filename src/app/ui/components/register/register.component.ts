@@ -6,10 +6,13 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { BaseComponent } from 'src/app/base/base.component';
+import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { Create_User } from 'src/app/contracts/users/create_user';
 import { User } from 'src/app/entities/user';
+import { AuthService } from 'src/app/services/common/auth.service';
+import { UserAuthService } from 'src/app/services/common/model/user-auth.service';
 import { UserService } from 'src/app/services/common/model/user.service';
 import {
   CustomToastrService,
@@ -27,7 +30,11 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private toastrService: CustomToastrService,
-    spinner: NgxSpinnerService
+    spinner: NgxSpinnerService,
+    private userAuthService: UserAuthService,
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     super(spinner);
   }
