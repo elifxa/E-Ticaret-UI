@@ -34,6 +34,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         if (returnUrl) this.router.navigate([returnUrl]);
       });
       this.hideSpinner(SpinnerType.BallAtom);
+      this.router.navigate(['/admin/dash']);
     });
   }
 }

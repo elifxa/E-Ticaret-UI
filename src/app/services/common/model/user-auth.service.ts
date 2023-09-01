@@ -7,6 +7,7 @@ import {
   ToastrPosition,
 } from '../../ui/custom-toastr.service';
 import { HttpClientService } from '../http-client.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ import { HttpClientService } from '../http-client.service';
 export class UserAuthService {
   constructor(
     private httpClientService: HttpClientService,
-    private toastrService: CustomToastrService
+    private toastrService: CustomToastrService,
+    private router: Router
   ) {}
 
   async login(
@@ -38,6 +40,7 @@ export class UserAuthService {
     if (tokenResponse) {
       localStorage.setItem('accessToken', tokenResponse.token.accessToken);
       localStorage.setItem('refreshToken', tokenResponse.token.refreshToken);
+      // this.router.navigate(['/admin/dash']);  login.component yerine burda da çalışır.
 
       this.toastrService.message(
         'Kullanıcı girişi başarıyla sağlanmıştır.',

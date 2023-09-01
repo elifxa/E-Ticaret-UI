@@ -1,0 +1,92 @@
+<div class="row" style="margin-left: 30px">
+  <div
+    class="card"
+    style="width: 16rem; float: left; margin: 5px"
+    *ngFor="let product of products"
+  >
+    <img
+      width="250"
+      height="250"
+      *ngIf="!product.productImageFiles.length"
+      src="../../../../../assets/default-product.png"
+      class="card-img-top"
+      alt="..."
+    />
+    <img
+      width="250"
+      height="250"
+      *ngIf="product.productImageFiles.length"
+      src="{{ baseUrl.url }}/{{ product.imagePath }}"
+      class="card-img-top"
+      alt="..."
+    />
+
+    <div class="card-body">
+      <h5 class="card-title" style="font-size: 20px">{{ product.name }}</h5>
+      <p class="card-text">
+        Fiyat : {{ product.price | currency : '₺' }} <br />
+        Stock : {{ product.stock }}
+      </p>
+      <a
+        href="#"
+        class="btn"
+        style="background-color: #aac8a7; border-radius: 5px; font-weight: 450"
+        >Sepete ekle</a
+      >
+    </div>
+  </div>
+</div>
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<div
+  style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+  "
+>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a
+          style="font-size: 30px"
+          class="page-link"
+          aria-label="Previous"
+          [routerLink]="[
+            '/products',
+            currentPageNo - 1 <= 0 ? 1 : currentPageNo - 1
+          ]"
+        >
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let pageNo of pageList">
+        <a
+          class="page-link"
+          [routerLink]="['/products']"
+          [queryParams]="{pageNo}"
+          style="font-size: 20px"
+        >
+          {{ pageNo }}
+        </a>
+      </li>
+      <li class="page-item">
+        <a
+          style="font-size: 30px"
+          class="page-link"
+          aria-label="Next"
+          [routerLink]="[
+            '/products',
+            currentPageNo + 1 >= totalPageCount
+              ? totalPageCount
+              : currentPageNo + 1
+          ]"
+        >
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
