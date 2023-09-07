@@ -57,7 +57,7 @@ export class UserAuthService {
 
   async refreshTokenLogin(
     refreshToken: string,
-    callBackFunction?: () => void
+    callBackFunction?: (state) => void
   ): Promise<any> {
     const observable: Observable<any | TokenResponse> =
       this.httpClientService.post(
@@ -68,15 +68,53 @@ export class UserAuthService {
         { refreshToken: refreshToken }
       );
 
-    const tokenResponse: TokenResponse = (await firstValueFrom(
-      observable
-    )) as TokenResponse;
+    try {
+      const tokenResponse: TokenResponse = (await firstValueFrom(
+        observable
+      )) as TokenResponse;
 
-    if (tokenResponse) {
-      localStorage.setItem('accessToken', tokenResponse.token.accessToken);
-      localStorage.setItem('refreshToken', tokenResponse.token.refreshToken);
+      if (tokenResponse) {
+        localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+        localStorage.setItem('refreshToken', tokenResponse.token.refreshToken);
+      }
+
+      callBackFunction(tokenResponse ? true : false);
+    } catch {
+      callBackFunction(false);
     }
+  }
 
+  async passwordReset(email: string, callBackFunction?: () => void) {
+    const observable: Observable<any> = this.httpClientService.post(
+      {
+        controller: 'auth',
+        action: 'password-reset',
+      },
+      { email: email }
+    );
+
+    await firstValueFrom(observable);
     callBackFunction();
+  }
+
+  async verifyResetToken(
+    resetToken: string,
+    userId: string,
+    callBackFunction?: () => void
+  ): Promise<boolean> {
+    const observable: Observable<any> = this.httpClientService.post(
+      {
+        controller: 'auth',
+        action: 'verify-reset-token',
+      },
+      {
+        resetToken: resetToken,
+        userId: userId,
+      }
+    );
+
+    const state: boolean = await firstValueFrom(observable);
+    callBackFunction();
+    return state;
   }
 }

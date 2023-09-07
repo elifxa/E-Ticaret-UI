@@ -1,22 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { BaseUrl } from 'src/app/contracts/base-url';
+import { Create_Basket_Item } from 'src/app/contracts/basket/create_basket_item';
 import { List_Product } from 'src/app/contracts/list_product';
+import { BasketService } from 'src/app/services/common/model/basket.service';
 import { FileService } from 'src/app/services/common/model/file.service';
 import { ProductService } from 'src/app/services/common/model/product.service';
+import {
+  CustomToastrService,
+  ToastrMessageType,
+  ToastrPosition,
+} from 'src/app/services/ui/custom-toastr.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent extends BaseComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private fileService: FileService,
-    private router: Router
-  ) {}
+    private basketService: BasketService,
+    spinner: NgxSpinnerService,
+    private customToastrService: CustomToastrService
+  ) {
+    super(spinner);
+  }
 
   currentPageNo: number;
   totalProductCount: number;
@@ -87,5 +100,22 @@ export class ListComponent implements OnInit {
         }
       }
     });
+  }
+
+  async addToBasket(product: List_Product) {
+    this.showSpinner(SpinnerType.BallAtom);
+    let _basketItem: Create_Basket_Item = new Create_Basket_Item();
+    _basketItem.productId = product.id;
+    _basketItem.quantity = 1;
+    await this.basketService.add(_basketItem);
+    this.hideSpinner(SpinnerType.BallAtom);
+    this.customToastrService.message(
+      'Ürün sepete eklenmiştir.',
+      'Sepete Eklendi',
+      {
+        messageType: ToastrMessageType.Success,
+        position: ToastrPosition.BottomRight,
+      }
+    );
   }
 }

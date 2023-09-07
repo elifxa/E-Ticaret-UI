@@ -33,7 +33,7 @@
             </a>
           </li>
 
-          <li class="nav-item" style="margin-left: 10px">
+          <li class="nav-item">
             <a
               class="nav-link active"
               aria-current="page"
@@ -56,39 +56,27 @@
             >
           </li>
 
-          <li class="nav-item" style="margin-left: 10px">
-            <a class="nav-link active" aria-current="page" routerLink="baskets"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                fill="currentColor"
-                class="bi bi-cart-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
-                />
-              </svg>
-              Basket</a
+          <button
+            class="btn"
+            data-bs-toggle="modal"
+            data-bs-target="#basketModal"
+            type="submit"
+            (click)="loadComponent()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="bi bi-cart-fill"
+              viewBox="0 0 16 16"
             >
-          </li>
-
-          <!-- <li class="nav-item">
-            <a
-              class="nav-link active"
-              aria-current="page"
-              routerLink="register"
-            >
-              Register</a
-            >
-          </li> -->
-
-          <!-- <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="login"
-              >Giriş Yap</a
-            >
-          </li> -->
+              <path
+                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+              />
+            </svg>
+            Basket
+          </button>
 
           <li class="nav-item dropdown" *ngIf="!authService.isAuthenticated">
             <a
@@ -163,16 +151,6 @@
             >
           </li>
         </ul>
-
-        <!-- <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form> -->
       </div>
     </div>
   </nav>
@@ -187,5 +165,12 @@
   name="s1"
   type="ball-spin-fade-rotating"
 ></ngx-spinner>
-
 <ngx-spinner size="default" name="s2" type="ball-atom"></ngx-spinner>
+
+<!-- <app-baskets></app-baskets> -->
+
+<div class="modal fade" id="basketModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <ng-template appDynamicLoadComponent></ng-template>
+  </div>
+</div>

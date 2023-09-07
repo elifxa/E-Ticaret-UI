@@ -1,1 +1,4 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+.cdk-overlay-container {
+  z-index: 10000000000;
+}

@@ -10,10 +10,14 @@
 }
 
 .admin {
-  margin-left: 790px;
+  margin-left: 780px;
   margin-right: 20px;
 }
 
 ul li:nth-child(4) {
-  margin-left: 850px;
+  margin-left: 840px;
 }
+
+// :host ::ng-deep .cdk-overlay-container {
+//   z-index: 1000000000000000 !important;
+// }

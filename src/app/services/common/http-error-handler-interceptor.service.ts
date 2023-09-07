@@ -13,6 +13,9 @@ import {
   ToastrPosition,
 } from '../ui/custom-toastr.service';
 import { UserAuthService } from './model/user-auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerType } from 'src/app/base/base.component';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +23,9 @@ import { UserAuthService } from './model/user-auth.service';
 export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
   constructor(
     private toastrService: CustomToastrService,
-    private userAuthService: UserAuthService
+    private userAuthService: UserAuthService,
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {}
 
   intercept(
@@ -31,18 +36,36 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
       catchError((error) => {
         switch (error.status) {
           case HttpStatusCode.Unauthorized:
-            this.toastrService.message(
-              'Bu işlemi yapmaya yetkiniz bulunmamaktadır!',
-              'Yetkisiz işlem!',
-              {
-                messageType: ToastrMessageType.Warning,
-                position: ToastrPosition.BottomFullWidth,
-              }
-            );
             this.userAuthService
-              .refreshTokenLogin(localStorage.getItem('refreshToken'))
+              .refreshTokenLogin(
+                localStorage.getItem('refreshToken'),
+                (state) => {
+                  if (!state) {
+                    const url = this.router.url;
+                    if (url == '/products')
+                      this.toastrService.message(
+                        'Sepete ürün eklemek için oturum açmanız gerekiyor.',
+                        'Oturum açınız!',
+                        {
+                          messageType: ToastrMessageType.Warning,
+                          position: ToastrPosition.BottomRight,
+                        }
+                      );
+                    else
+                      this.toastrService.message(
+                        'Bu işlemi yapmaya yetkiniz bulunmamaktadır!',
+                        'Yetkisiz işlem!',
+                        {
+                          messageType: ToastrMessageType.Warning,
+                          position: ToastrPosition.BottomFullWidth,
+                        }
+                      );
+                  }
+                }
+              )
               .then((data) => {});
             break;
+
           case HttpStatusCode.InternalServerError:
             this.toastrService.message(
               'Sunucuya erişilmiyor!',
@@ -84,6 +107,7 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
             );
             break;
         }
+        this.spinner.hide(SpinnerType.BallAtom);
         return of(error);
       })
     );

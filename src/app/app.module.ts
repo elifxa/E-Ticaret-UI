@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,9 +16,11 @@ import { FileUploadModule } from './services/common/file-upload/file-upload.modu
 import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpErrorHandlerInterceptorService } from './services/common/http-error-handler-interceptor.service';
+import { LoginComponent } from './ui/components/login/login.component';
+import { DynamicLoadComponentDirective } from './directives/common/dynamic-load-component.directive';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, DynamicLoadComponentDirective],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,6 +42,11 @@ import { HttpErrorHandlerInterceptorService } from './services/common/http-error
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorHandlerInterceptorService,
+      multi: true,
+    },
+    {
+      provide: 'baseSignalRUrl',
+      useValue: 'https://localhost:7213/',
       multi: true,
     },
   ],

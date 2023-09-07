@@ -28,9 +28,9 @@
         Stock : {{ product.stock }}
       </p>
       <a
-        href="#"
         class="btn"
         style="background-color: #aac8a7; border-radius: 5px; font-weight: 450"
+        (click)="addToBasket(product)"
         >Sepete ekle</a
       >
     </div>
