@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
-import { List_Role } from 'src/app/contracts/role/List_role';
+import { List_Role } from 'src/app/contracts/role/List_Role';
 import {
   AletifyService,
   MessageType,

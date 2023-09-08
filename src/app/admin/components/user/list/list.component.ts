@@ -3,15 +3,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from '../../../../base/base.component';
-import { OrderService } from 'src/app/services/common/model/order.service';
+import { DialogService } from '../../../../services/common/dialog.service';
 import {
   AletifyService,
   MessageType,
   Position,
 } from 'src/app/services/admin/aletify.service';
-import { List_Order } from 'src/app/contracts/order/list_order';
-import { DialogService } from 'src/app/services/common/dialog.service';
-import { OrderDetailDialogComponent } from 'src/app/dialogs/order-detail-dialog/order-detail-dialog.component';
+import { UserService } from 'src/app/services/common/model/user.service';
+import { List_User } from 'src/app/contracts/users/list_user';
+import { AuthorizeUserDialogComponent } from 'src/app/dialogs/authorize-user-dialog/authorize-user-dialog.component';
 
 @Component({
   selector: 'app-list',
@@ -21,7 +21,7 @@ import { OrderDetailDialogComponent } from 'src/app/dialogs/order-detail-dialog/
 export class ListComponent extends BaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
-    private orderService: OrderService,
+    private userService: UserService,
     private alertifyService: AletifyService,
     private dialogService: DialogService
   ) {
@@ -29,51 +29,55 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   displayedColumns: string[] = [
-    'orderCode',
     'userName',
-    'totalPrice',
-    'createdDate',
-    'completed',
-    'viewdetail',
+    'nameSurname',
+    'email',
+    'twoFactorEnabled',
+    'role',
     'delete',
   ];
-  dataSource: MatTableDataSource<List_Order> = null;
+  dataSource: MatTableDataSource<List_User> = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  async getOrders() {
+  async getUsers() {
     this.showSpinner(SpinnerType.BallAtom);
 
-    const allOrders: { totalOrderCount: number; orders: List_Order[] } =
-      await this.orderService.getAllOrders(
+    const allUsers: { totalUsersCount: number; users: List_User[] } =
+      await this.userService.getAllUsers(
         this.paginator ? this.paginator.pageIndex : 0,
         this.paginator ? this.paginator.pageSize : 5,
         () => this.hideSpinner(SpinnerType.BallAtom),
-        (errorMessage: any) => {
-          this.alertifyService.message(errorMessage.message, {
+        (errorMessage) =>
+          this.alertifyService.message(errorMessage, {
             dismissOthers: true,
             messageType: MessageType.Error,
-            position: Position.BottomRight,
-          });
-        }
+            position: Position.TopRight,
+          })
       );
-    this.dataSource = new MatTableDataSource<List_Order>(allOrders.orders);
-    this.paginator.length = allOrders.totalOrderCount;
+    this.dataSource = new MatTableDataSource<List_User>(allUsers.users);
+    this.paginator.length = allUsers.totalUsersCount;
   }
 
   async pageChanged() {
-    await this.getOrders();
+    await this.getUsers();
   }
 
   async ngOnInit() {
-    await this.getOrders();
+    await this.getUsers();
   }
 
-  showDetail(id: string) {
+  assignRole(id: string) {
     this.dialogService.openDialog({
-      componentType: OrderDetailDialogComponent,
+      componentType: AuthorizeUserDialogComponent,
       data: id,
       options: {
         width: '750px',
+      },
+      afterClosed: () => {
+        this.alertifyService.message('Roller başarıyla atanmıştır!', {
+          messageType: MessageType.Success,
+          position: Position.TopRight,
+        });
       },
     });
   }
